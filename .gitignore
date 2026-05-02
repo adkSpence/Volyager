@@ -109,3 +109,12 @@ InitTestScene*.unity*
 # Large scene files (volume data embedded — fix and re-add later)
 Assets/Scenes/HeadVolumeScene.unity
 Assets/Scenes/HeadVolumeScene.unity.meta
+
+# Volume data — too large for git, see README for how to obtain
+*.nii
+*.nii.gz
+*.nrrd
+*.raw
+*.dcm
+*.dicom
+Assets/StreamingAssets/
