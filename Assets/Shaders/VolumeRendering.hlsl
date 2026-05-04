@@ -30,6 +30,12 @@ float _LightingGradientThresholdEnd;
 
 float _SamplingRateMultiplier;
 
+// --- Scalpel uniforms (Volyager) ---
+float3 _ScalpelTipPosition;   /* world-space position of the scalpel tip */
+float3 _ScalpelDirection;     /* world-space direction the scalpel points */
+float  _ScalpelDebugRadius;   /* world-space radius for the debug tint blob */
+int    _ScalpelEnabled;       /* 0 or 1 — gates all scalpel logic */
+
 #if CROSS_SECTION_ON
 #include "Packages/com.mlavik1.easyvolumerenderer/Runtime/Shaders/Include/VolumeCutout.cginc"
 #else
@@ -272,6 +278,24 @@ volrend_result volrend_dvr(float3 vertexLocal, float2 uv)
 
         // Apply visibility window
         if (density < _MinVal || density > _MaxVal) continue;
+
+        // --- Scalpel debug tint (Volyager Phase 2) ---
+        // currPos is in [0,1] object-local space. Convert to world space and
+        // compare with the scalpel tip. If within the debug radius, force a
+        // bright magenta colour so we can visually confirm the uniforms wire
+        // through correctly.
+        if (_ScalpelEnabled == 1)
+        {
+            float3 currWorld = mul(unity_ObjectToWorld, float4(currPos - 0.5, 1.0)).xyz;
+            float dist = length(currWorld - _ScalpelTipPosition);
+            if (dist < _ScalpelDebugRadius)
+            {
+                float4 debugCol = float4(1.0, 0.0, 1.0, 1.0); // magenta, fully opaque
+                debugCol.rgb *= debugCol.a;
+                col = (1.0f - col.a) * debugCol + col;
+                continue;
+            }
+        }
 
         // Apply 1D transfer function
 #if !TF2D_ON

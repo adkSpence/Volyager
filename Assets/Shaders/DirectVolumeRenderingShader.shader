@@ -17,6 +17,10 @@
         _SecondaryTFTex("Transfer Function Texture for secondary volume", 2D) = "" {}
         [HideInInspector] _ShadowVolumeTextureSize("Shadow volume dimensions", Vector) = (1, 1, 1)
         [HideInInspector] _TextureSize("Dataset dimensions", Vector) = (1, 1, 1)
+        [HideInInspector] _ScalpelTipPosition("Scalpel tip", Vector) = (0, 0, 0, 0)
+        [HideInInspector] _ScalpelDirection("Scalpel direction", Vector) = (0, 0, 1, 0)
+        [HideInInspector] _ScalpelDebugRadius("Scalpel debug radius", Float) = 0.05
+        _ScalpelEnabled("Scalpel enabled", Int) = 0
 }
     SubShader
     {
