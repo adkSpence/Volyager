@@ -117,4 +117,4 @@ Assets/Scenes/HeadVolumeScene.unity.meta
 *.raw
 *.dcm
 *.dicom
-Assets/StreamingAssets/
+Assets/StreamingAssets/.DS_Store
